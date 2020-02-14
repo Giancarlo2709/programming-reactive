@@ -1,0 +1,5 @@
+En RxJava, hay un poderoso operador llamado switchMap (). Su uso se siente como flatMap (),
+pero tiene una diferencia de comportamiento importante: emitirá desde el último Observable
+derivado de la última emisión y disponer de cualquier Observable anterior que fuera
+Procesando. En otras palabras, le permite cancelar un Observable emisor y cambiar a un
+uno nuevo, evitando el procesamiento obsoleto o redundante.

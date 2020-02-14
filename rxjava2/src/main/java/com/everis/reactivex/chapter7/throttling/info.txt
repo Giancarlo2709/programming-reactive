@@ -1,0 +1,9 @@
+Los operadores buffer () y window () agrupan las emisiones en colecciones u observables
+basado en un alcance definido, que regularmente consolida en lugar de omitir
+Sin embargo, el operador del acelerador () omite las emisiones cuando ocurren rápidamente.
+Esto es útil cuando se supone que las emisiones rápidas son redundantes o no deseadas, como un
+usuario haciendo clic en un botón repetidamente. Para estas situaciones, puede usar el
+Los operadores throttleLast (), throttleFirst () y throttleWithTimeout () solo permiten
+el primer o último elemento en una secuencia rápida de emisiones a través. Cómo eliges uno de
+las numerosas emisiones rápidas están determinadas por su elección de operador, parámetros y
+argumentos

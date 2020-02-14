@@ -1,0 +1,24 @@
+MISSING:
+Esencialmente resulta en ninguna implementación de contrapresión en absoluto. los
+aguas abajo debe lidiar con el desbordamiento de contrapresión, que puede ser
+útil cuando se usa con operadores onBackpressureXXX (), que nosotros
+cubrirá más adelante en este capítulo.
+
+ERROR:
+Señala una excepción MissingBackpressureException en el momento
+aguas abajo no puede mantenerse al día con la fuente.
+
+BUFFER:
+Agrupa las emisiones en una cola ilimitada hasta que es
+capaz de consumirlos, pero puede causar un OutOfMemoryError si
+la cola se hace demasiado grande.
+
+DROP:
+Si el río abajo no puede seguir el ritmo, esto ignorará las emisiones río arriba
+y no poner en cola nada mientras el rio abajo está ocupado.
+
+LATEST:
+Esto mantendrá solo la última emisión hasta que la corriente abajo esté lista
+para recibirlo
+
+
