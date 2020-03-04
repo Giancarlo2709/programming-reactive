@@ -1,18 +1,40 @@
 package io.spring.boot.exchange.rate.controller;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
 import io.reactivex.Maybe;
 import io.spring.boot.exchange.rate.controller.request.ExchangeRateRequest;
+import io.spring.boot.exchange.rate.controller.request.UpdateExChangeRequest;
+import io.spring.boot.exchange.rate.controller.response.ExchangeRateResponse;
+import io.spring.boot.exchange.rate.entity.ExchangeRate;
+import io.spring.boot.exchange.rate.service.ExchangeRateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-
 @RestController
-@RequestMapping("/api/exchange/rate")
+@RequestMapping("/api/exchange")
 public class ExChangeRateController {
 
-    @PostMapping("/calculator")
-    public Maybe<BigDecimal> calculator(@RequestBody ExchangeRateRequest exchangeRateRequest) {
-        return Maybe.just(exchangeRateRequest.getAmount());
+    private final ExchangeRateService exchangeRateService;
+
+    @Autowired
+    public ExChangeRateController(ExchangeRateService exchangeRateService) {
+        this.exchangeRateService = exchangeRateService;
+    }
+
+    @PostMapping("/converter")
+    public Flowable<ExchangeRateResponse> converter(@RequestBody ExchangeRateRequest exchangeRateRequest) {
+        return exchangeRateService.converter(exchangeRateRequest);
+    }
+
+    @PutMapping
+    public Completable update(@RequestBody UpdateExChangeRequest updateExChangeRequest) {
+        return exchangeRateService.update(updateExChangeRequest);
+    }
+
+    @GetMapping
+    public Flowable<ExchangeRate> findAll(){
+        return exchangeRateService.findAll();
     }
 
 }
