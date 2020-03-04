@@ -8,12 +8,10 @@ import com.spring.boot.reactive.service.BookService;
 import com.spring.boot.reactive.service.dto.AddBookRequest;
 import com.spring.boot.reactive.service.dto.BookResponse;
 import com.spring.boot.reactive.service.dto.UpdateBookRequest;
-import io.reactivex.rxjava3.core.Completable;
-import io.reactivex.rxjava3.core.Maybe;
-import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -75,15 +73,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Single<List<BookResponse>> getAllBooks(int limit, int page) {
+    public Flowable<BookResponse> getAllBooks(int limit, int page) {
         return findAllBooksInRepository(limit, page)
-                .map(this::toBookResponseList);
+                .map(this::toBookResponse);
     }
 
-    private Single<List<Book>> findAllBooksInRepository(int limit, int page) {
-        return Single.create(subscriber -> {
-            subscriber.onSuccess(bookRepository.findAll(PageRequest.of(page, limit)).getContent());
-        });
+    private Flowable<Book> findAllBooksInRepository(int limit, int page) {
+        System.out.println("limit: " + limit  + " page: " + page);
+        return Flowable.fromIterable( bookRepository.findAll(PageRequest.of(page, limit)).getContent());
     }
 
     private List<BookResponse> toBookResponseList(List<Book> books) {

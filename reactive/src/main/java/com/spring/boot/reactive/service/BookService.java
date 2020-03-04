@@ -4,6 +4,7 @@ import com.spring.boot.reactive.service.dto.AddBookRequest;
 import com.spring.boot.reactive.service.dto.BookResponse;
 import com.spring.boot.reactive.service.dto.UpdateBookRequest;
 import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface BookService {
 
     Completable updateBook(UpdateBookRequest updateBookRequest);
 
-    Single<List<BookResponse>> getAllBooks(int limit, int page);
+    Flowable<BookResponse> getAllBooks(int limit, int page);
 
     Single<BookResponse> getBookDetail(Integer id);
 

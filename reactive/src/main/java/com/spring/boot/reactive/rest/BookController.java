@@ -7,6 +7,7 @@ import com.spring.boot.reactive.service.BookService;
 import com.spring.boot.reactive.service.dto.AddBookRequest;
 import com.spring.boot.reactive.service.dto.BookResponse;
 import com.spring.boot.reactive.service.dto.UpdateBookRequest;
+import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,13 +68,12 @@ public class BookController {
     @GetMapping(
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Single<ResponseEntity<BaseWebResponse<List<BookWebResponse>>>> getAllBooks(@RequestParam(value = "limit", defaultValue = "5") int limit,
-                                                                                @RequestParam(value = "page", defaultValue = "0") int page) {
+    public Flowable<Object> getAllBooks(@RequestParam(value = "limit", defaultValue = "5") int limit,
+                                                                                        @RequestParam(value = "page", defaultValue = "0") int page) {
         return bookService.getAllBooks(limit, page)
                 .subscribeOn(Schedulers.io())
                 .map(bookResponses -> ResponseEntity
-                        .ok(BaseWebResponse.successWithData(toBookWebResponseList(bookResponses))))
-                .doOnSuccess(s -> System.out.println("get all"));
+                        .ok(BaseWebResponse.successWithData(toBookWebResponse(bookResponses))));
     }
 
     private List<BookWebResponse> toBookWebResponseList(List<BookResponse> bookResponses) {
